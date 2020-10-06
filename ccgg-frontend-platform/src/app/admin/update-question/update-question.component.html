@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="row">
+    <form (ngSubmit)="AddNewQuestion()" #QForm="ngForm">
+
+      <div class="row">
+        <div class="form-group">
+          <label for="description">Question Title -- Question No.: {{question.No}}</label>
+          <input id="description" name="description" class="form-control"
+                 type="text" [(ngModel)]="question.description">
+        </div>
+      </div>
+      <div class="row" >
+        <div class="form-group">
+          <label for="question_tags">Question Tags</label>
+          <mat-select placeholder="Select Tags for Question" class="form-control">
+            <mat-option *ngFor="let tag of tagOptions" (click)="addTag(tag)">{{tag.name}}</mat-option>
+          </mat-select>
+          <app-question-tag [questionTags]="question.question_tags" (removeTagEmitter)="removeTag($event)"
+          ></app-question-tag>
+          <input style="display: none" id="question_tags" name="question_tags" [ngModel]="question.question_tags" >
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="form-group">
+          <label for="extra_description">Extra Description</label>
+          <md-editor style="height: 150%" id="extra_description" name="extra_description" class="form-control"
+                     [options]=mdSetting.options [mode]=mdSetting.mode [height]="mdSetting.height"
+                     type="text" [(ngModel)]="question.extra_description">
+          </md-editor>
+        </div>
+      </div>
+
+      <div class="row" >
+        <div class="form-group">
+          <label for="suggested_answer">Suggested Answer</label>
+          <md-editor style="height: 150%" id="suggested_answer" name="suggested_answer" class="form-control"
+                     [options]=mdSetting.options [mode]=mdSetting.mode [height]="mdSetting.height"
+                     type="text" [(ngModel)]="question.suggested_answer">
+          </md-editor>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn btn-success" type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+<div class="container">
+  <h3 style="text-align: center">Add New Question Tag</h3>
+  <div class="row">
+    <form (ngSubmit)="AddNewQuestionTag()" #QTForm="ngForm">
+      <ng-container *ngFor="let warning of warnings">
+        <div class="alert-danger" role="alert" *ngIf="warning">
+          "{{warning}}"
+        </div>
+      </ng-container>
+
+      <div class="row">
+        <div class="form-group" [style.border]="style[0]">
+          <label for="name">Question Tag</label>
+          <input id="name" name="name" class="form-control"
+                 type="text" ngModel required>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn btn-success" type="submit">Submit</button>
+        <button class="btn btn-primary" type="reset" (click)="clear()" style="margin-left: 10px">Clear</button>
+      </div>
+
+      <ul class="list-group">
+        <li class="list-group-item" *ngFor="let tag of tags; let i = index">
+          <span [style.border]="style[i+1]">{{tag}} </span>
+        </li>
+      </ul>
+
+    </form>
+  </div>
+</div>

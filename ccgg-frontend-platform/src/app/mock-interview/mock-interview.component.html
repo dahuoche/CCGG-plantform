@@ -1,0 +1,83 @@
+<!--<div>-->
+<!--  <button class="start-button" *ngIf="!isRecording && !blobUrl" (click)="startRecording()">Start Recording</button>-->
+<!--  <button class="stop-button" *ngIf="isRecording && !blobUrl" (click)="stopRecording()">Stop Recording</button>-->
+<!--  <button class="cancel-button" *ngIf="!isRecording && blobUrl" (click)="clearRecordedData()">Clear Recording</button>-->
+<!--  <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>-->
+<!--  <div>-->
+<!--    <audio *ngIf="!isRecording && blobUrl"  controls>-->
+<!--      <source [src]="blobUrl" type="audio/webm">-->
+<!--    </audio>-->
+<!--  </div>-->
+<!--</div>-->
+<div class="container">
+  <div class="row">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Profile <i class="fa fa-user-circle-o"></i>
+      </div>
+      <div class="panel-body">
+        <p>Name: {{ this.authService.username }}</p>
+        <p>Batch: {{batch}}</p>
+        <p>Focus: {{focus}}</p>
+        <p>Trainer: {{trainer}}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Mock Interview
+      </div>
+      <div class="panel-body" style="margin: 10px">
+
+        <div class="row" *ngIf="this.q_number === 0 && this.isMockInterviewQ === false && this.isFinished === false">
+          <h2 class="text-center">You have no Mock interview yet</h2>
+        </div>
+        <div class="row"
+             *ngIf="this.q_number === 0 && this.isMockInterviewQ === true && this.startMock === false && this.isFinished === false">
+          <h4>Please <strong>DO NOT </strong> click any button outside this box
+          </h4>
+          <label>Accept to start:
+            <input type="checkbox" (input)="Accept()">
+          </label>  I accept
+          <button class="btn btn-primary pull-right" [disabled]="!isAccepted"
+                  style="margin-bottom: 5px; margin-left: 3px" (click)="nextQuestion()">
+            Start </button>
+        </div>
+        <div class="row" *ngIf="this.q_number !== 0 && this.isMockInterviewQ === false || this.isFinished === true">
+          <h2 class="text-center">Your Interview is already finished</h2>
+        </div>
+
+        <div class="container" *ngIf="this.startMock === true && this.isMockInterviewQ === true">
+          <div class="row">
+            <div class="col-md-12">
+              <h3>
+                <span>{{q_number}} . {{description}}</span>
+              </h3>
+              <p>
+                {{ext_description}}
+              </p>
+              <div *ngIf="isRecording && !blobUrl"> {{recordedTime}} </div>
+              <div *ngIf="coding" class="col-md-12">
+                <md-editor id="extra_description" [(ngModel)]="answerCode" >
+                </md-editor>
+              </div>
+              <div class="row">
+                <button class="btn btn-info"  (click)="stopRecording()" [disabled]="isSubmitted"> Submit
+                  <i class="fa fa-chevron-circle-right"></i></button>
+                <button class="btn btn-info"  (click)="nextQuestion()" [disabled]="!isSubmitted"> Next
+                  <i class="fa fa-chevron-circle-right"></i></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+<!--<a href="{{this.answer.audio}}">{{this.answer.audio}}</a>-->

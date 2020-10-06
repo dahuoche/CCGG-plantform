@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3>
+        <span>{{question_id}}. {{ question_desc }}</span>
+      </h3>
+    </div>
+    <div class="col-md-12">
+      <div class="col-md-12" *ngIf="extra_des">
+        <md-editor id="extra_description" [(ngModel)]="extra_description" [options]=mdOptions_e [mode]='mode' [height]="height">
+
+        </md-editor>
+      </div>
+      <p>Tags:
+        <app-question-tag [questionTags]=question_tags></app-question-tag>
+        <span class="pull-right text-primary">
+          <input id="markdown" type="checkbox" class="ng-untouched ng-pristine ng-valid" (change)="changeInput()" >
+          <label for="markdown">Markdown Editor</label>
+        </span>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-md-12" style="height: 180px">
+      <textarea *ngIf="answerMode" [(ngModel)]="answer"
+                class="question-detail-text-area form-control ng-pristine ng-valid ng-touched" rows="8" style="margin-bottom: 10px">
+      </textarea>
+      <md-editor *ngIf="!answerMode" style="height: 165px"  class="form-control"
+                   [options]=mdSetting.options [mode]=mdSetting.mode [height]="mdSetting.height"
+                   type="text" [(ngModel)]="answer">
+      </md-editor>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-success" style="margin-bottom: 5px" (click)="saveAnswer()" *ngIf="!submitMode">
+        Save <i class="fa fa-floppy-o"></i>
+      </button>
+      <button class="btn btn-success" style="margin-bottom: 5px" (click)="updateAnswer()" *ngIf="submitMode">
+        Update <i class="fa fa-floppy-o"></i></button>
+      <button class="btn btn-danger" style="margin-bottom: 5px; margin-left: 3px; margin-right: 3px" routerLink="/questions"> Back
+        <i class="fa fa-undo"></i></button>
+      <button class="btn btn-primary" style="margin-bottom: 5px; margin-left: 3px; margin-right: 3px" *ngIf="'ROLE_ADMIN' === (this.authService.authName | async)"
+              [routerLink]="['/admin/update/question/',id]"> Update
+        <i class="fa fa-arrow-up"></i></button>
+    </div>    <button class="btn btn-info pull-right" style="margin-bottom: 5px; margin-left: 3px" (click)="nextAnswer()"> Next
+        <i class="fa fa-chevron-circle-right"></i></button>
+      <button class="btn btn-info pull-right" style="margin-bottom: 5px; margin-left: 3px"  *ngIf="question_id !== 1" (click)="prevAnswer()"> Prev
+        <i class="fa fa-chevron-circle-left"></i></button>
+      <button class="btn btn-link pull-right" style="margin-bottom: 5px" (click)="suggestedAnswer()">
+        Suggested Answer</button>
+
+  </div>
+
+  <div class="row" *ngIf="isAnswerShown">
+    <div class="col-md-12">
+      <br>
+      <md-editor class="suggested_answer"
+        [(ngModel)]="suggested_answer" [options]=mdOptions_a [mode]='mode' [height]="height">
+      </md-editor>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" aria-controls="navbarContent" [attr.aria-expanded]="!collapsed" aria-label="Toggle navigation" (click)="collapsed = !collapsed">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="">CCGG-Platform</a>
+    </div>
+    <div class="collapse navbar-collapse" [class.collapse]="collapsed" id="myNavbar">
+      <ul class="nav navbar-nav" *ngIf="this.authService.loggedIn | async">
+        <li>
+          <a routerLink="/home" routerLinkActive="active">Home</a>
+        </li>
+        <li>
+          <a routerLink="/questions" routerLinkActive="active">Questions</a>
+        </li>
+        <li>
+          <a routerLink="/resources" routerLinkActive="active">Resources</a>
+        </li>
+        <li>
+          <a routerLink="/ccgg-review" routerLinkActive="active">CCGG Review</a>
+        </li>
+        <li>
+          <a routerLink="/mocks" routerLinkActive="active">Mock Interview</a>
+        </li>
+        <ng-container *ngIf="('ROLE_ADMIN' === (this.authService.authName | async)) || ('ROLE_TRAINER' === (this.authService.authName | async)) || ('ROLE_CEO' === (this.authService.authName | async))">
+          <li class="dropdown" ngbDropdown>
+            <a class="dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>Administrator<span class="caret"></span></a>
+            <ul ngbDropdownMenu class="dropdown-menu">
+              <li><a routerLink="/admin/add/users">Active New User</a></li>
+              <li><a routerLink="/admin/add/questions">Add New Question</a></li>
+              <li><a routerLink="/admin/add/questions/tags">Add New Question Tags</a></li>
+              <li><a routerLink="/admin/add/batch">Add New Batch</a></li>
+              <li><a routerLink="/admin/add/mock-interview">Add Mock Interview</a></li>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" *ngIf="this.authService.loggedIn | async">
+        <li>
+          <a>Welcome {{ this.authService.username }}</a>
+        </li>
+        <li>
+          <a routerLinkActive="active" href="#" (click)="Logout()">Log out</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="main container">
+  <div class="row">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+<app-footer></app-footer>

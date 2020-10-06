@@ -1,0 +1,72 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <h3>Add Questions to Mock Interview</h3>
+      <p>&nbsp;</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Welcome, {{author.role.name.slice(5)}} {{author.name}}</h4>
+        </div>
+        <div class="panel-body">
+          <label>
+            <p>Please Choose a Batch to Start:</p>
+            <select class="form-control form-control-lg" [(ngModel)]="batch">
+              <option *ngFor="let b of batches" [ngValue]="b"> {{b.batch}}</option>
+            </select>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="!!batch['batch']">
+    <div class="col-md-offset-2 col-md-8">
+      <button class="pull-right btn-primary"
+              style="height: 32px; width: 220px; color: #337AB7;border-radius: 10px"
+              (click)="AddQuestion()">
+        <i class="fa fa-plus-square" aria-hidden="true"
+         style="font-size: 16px; color: white">
+        &nbsp;Add A New Question</i>
+      </button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-offset-2 col-md-8">
+      <app-question-generator *ngIf="displayAddQuestion"  (questionEmitter)="setQuestion($event)"></app-question-generator>
+    </div>
+  </div>
+
+  <div class="row" style="margin-top: 20px" *ngIf="!!questions.length">
+    <div class="col-md-offset-2 col-md-8">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4>Question List</h4>
+        </div>
+        <div class="panel-body" *ngFor="let question of questions; index as i; TrackBy: resetQuestions(i, questions)">
+          <div class="col-sm-10">
+            <p><strong>{{i+1}}.&nbsp;{{question.description}}</strong></p>
+            <p><span *ngFor="let tag of question.question_tag_objs">{{tag.name}},&nbsp;</span></p>
+            <p>{{question.extra_description}}</p>
+          </div>
+          <div class="col-sm-2">
+            <p><a (click)="removeQuestion(i)">remove</a></p>
+            <p><a (click)="upQuestion(i)">up</a> / <a (click)="downQuestion(i)">down</a></p>
+<!--            <p><a (click)="updateQuestion(i)">update</a></p>-->
+          </div>
+        </div>
+        <div class="pull-right" style="margin: 10px">
+          <button class="btn btn-primary" (click)="submitInterview()">Submit</button>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>

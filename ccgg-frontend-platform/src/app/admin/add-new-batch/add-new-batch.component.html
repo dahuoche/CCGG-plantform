@@ -1,0 +1,45 @@
+<div class="container">
+  <h3 style="text-align: center">Add New Batch</h3>
+  <div class="row">
+    <form (ngSubmit)="AddNewBatch()" #BForm="ngForm">
+      <ng-container *ngFor="let warning of warnings">
+        <div class="alert-danger" role="alert" *ngIf="warning">
+          "{{warning}}" is required to submit a new batch
+        </div>
+      </ng-container>
+
+      <div class="row">
+        <div class="form-group" [style.border]="style[0]">
+          <label for="focus">Batch Focus</label>
+          <input id="focus" name="focus" class="form-control"
+                 type="text" ngModel required>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="form-group" [style.border]="style[1]">
+          <label for="batch">Batch Date</label>
+          <input id="batch" name="batch" class="form-control"
+                 type="text" ngModel required>
+          <p></p>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="form-group" [style.border]="style[2]">
+          <label for="trainer">Batch Trainer</label>
+          <input id="trainer" name="trainer" class="form-control"
+                 type="text" ngModel required>
+          <p></p>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn btn-success" type="submit">Submit</button>
+        <button class="btn btn-primary" type="reset" (click)="clear()" style="margin-left: 10px">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>

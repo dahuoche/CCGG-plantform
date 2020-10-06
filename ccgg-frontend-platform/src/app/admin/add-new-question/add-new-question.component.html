@@ -1,0 +1,58 @@
+<div class="">
+  <h3 style="text-align: center">Add New Question</h3>
+  <div class="row">
+    <form (ngSubmit)="AddNewQuestion()" #QForm="ngForm">
+      <ng-container *ngFor="let warning of warnings">
+        <div class="alert-danger" role="alert" *ngIf="warning">
+          "{{warning}}" is required to submit a new question
+        </div>
+      </ng-container>
+
+      <div class="row">
+        <div class="form-group" [style.border]="style[0]">
+          <label for="description">Question Title</label>
+          <input id="description" name="description" class="form-control"
+                 type="text" ngModel required>
+          <p></p>
+        </div>
+      </div>
+      <div class="row" >
+        <div class="form-group" [style.border]="style[1]">
+          <label for="question_tags">Question Tags</label>
+          <mat-select placeholder="Select Tags for Question" class="form-control">
+            <mat-option *ngFor="let tag of tagOptions" (click)="addTag(tag)">{{tag.name}}</mat-option>
+          </mat-select>
+          <app-question-tag [questionTags]="question_tag_objs" (removeTagEmitter)="removeTag($event)"
+          ></app-question-tag>
+          <input style="display: none" id="question_tags" name="question_tags" [ngModel]="question_tags" >
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="form-group">
+          <label for="extra_description">Extra Description</label>
+          <md-editor style="height: 150%" id="extra_description" name="extra_description" class="form-control"
+                     [options]=mdSetting.options [mode]=mdSetting.mode [height]="mdSetting.height"
+                     type="text" ngModel>
+          </md-editor>
+        </div>
+      </div>
+
+      <div class="row" >
+        <div class="form-group" [style.border]="style[2]">
+          <label for="suggested_answer">Suggested Answer</label>
+          <md-editor style="height: 150%" id="suggested_answer" name="suggested_answer" class="form-control"
+                     [options]=mdSetting.options [mode]=mdSetting.mode [height]="mdSetting.height"
+                     type="text" ngModel required>
+          </md-editor>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn btn-success" type="submit">Submit</button>
+        <button class="btn btn-primary" type="reset" (click)="clear()" style="margin-left: 10px">Clear</button>
+      </div>
+    </form>
+  </div>
+</div>

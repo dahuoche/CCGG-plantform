@@ -1,0 +1,67 @@
+<div id='questionTable' class="col-md-9">
+  <mat-form-field>
+    <input style="display: inline" matInput (keyup)="applyFilter($event.target.value)" placeholder="Search...">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select style="display: inline" [placeholder]="'Tags...'">
+      <mat-option *ngFor="let tag of questionTags" (click)="filterDataByTag(tag)">{{tag.name}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <app-question-tag [questionTags]="filterTags" (removeTagEmitter)="removeTag($event)"></app-question-tag>
+  <button style="padding-top: 20px" class="btn btn-link pull-right expand-answers" (click)="answerExpanded()">Expanded Answers</button>
+
+  <table mat-table [dataSource]="dataSource" style="width: 100%" #mainTable>
+    <!-- Position Column -->
+    <ng-container matColumnDef="number">
+      <th mat-header-cell *matHeaderCellDef> # </th>
+      <td mat-cell *matCellDef="let element"> {{element.No}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef>
+        <p style="display: inline">Question</p>
+      </th>
+      <td mat-cell *matCellDef="let element">
+        <div>
+          <a [routerLink]="['/questions/detail/', element._id]">{{element.description}}</a>
+          <app-question-tag style="pointer-events: none" [questionTags]="element.question_tags"
+          ></app-question-tag>
+        </div>
+        <div *ngIf="isAnswerExpanded">{{element.suggested_answer}}</div>
+      </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="answered">
+      <th mat-header-cell *matHeaderCellDef  style="text-align: center"> Answered </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center">
+            <span>
+              <i class="fa fa-chevron-circle-left" style="color: red" *ngIf="element.answer === undefined"></i>
+              <i class="fa fa-chevron-circle-left" style="color: green" *ngIf="element.answer !== undefined"></i>
+            </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+</div>
+
+<div class="col-md-3" style="border: 1px solid cornflowerblue; border-radius: 10px;padding: 10px">
+    <span *ngFor="let question of questionTags; let i = index">
+      <p *ngIf="i === 0" style="width: 95%"><strong style="color: cornflowerblue; font-size: 20px">Summary</strong>
+        <span class="pull-right" style="padding-top: 5px; margin-left: 10px">
+            <span style="color: #337AB7">{{answerRecord[i]}}</span>/<span style="color: #A94442">{{tagRecord[i]}}</span>
+          </span>
+      </p>
+      <p *ngIf="i !== 0" [style.margin-bottom]="style" style="width: 95%">{{question.name}}
+        <span class="pull-right" style="margin-left: 10px">
+            <span style="color: #337AB7">{{answerRecord[i]}}</span>/<span style="color: #A94442">{{tagRecord[i]}}</span>
+          </span>
+      </p>
+    </span>
+</div>
+
+
